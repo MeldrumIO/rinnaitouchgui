@@ -1,0 +1,12 @@
+'1591061096726':
+  alias: Increase Set Temperature
+  sequence:
+  - data: {}
+    entity_id: input_number.set_temperature
+    service: input_number.increment
+'1591061319101':
+  alias: Decrease Set Temperature
+  sequence:
+  - data: {}
+    entity_id: input_number.set_temperature
+    service: input_number.decrement

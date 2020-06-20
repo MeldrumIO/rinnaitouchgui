@@ -1,0 +1,193 @@
+############################
+# Date/Time Sensors
+############################
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
+    - 'date_time'
+    - 'time_date'
+
+- platform: template
+  sensors:
+    dayoftheweek:
+      entity_id: sensor.date
+      value_template: "{{ now().strftime('%A') }}"
+
+    month:
+      entity_id: sensor.date
+      value_template: "{{ now().strftime('%B') }}"
+
+    dateofthemonth:
+      entity_id: sensor.date 
+      value_template: >
+        {% set suffix = ['st', 'nd', 'rd'] %}
+        {% set day = now().day %}
+        {% set index = 3 if day // 10 == 1 or day % 10 == 0 else (day % 10) - 1 %}
+        {{ day~'th' if index > 2 else day~suffix[index] }}
+      
+    fulldate:
+      value_template: >
+        {{ states('sensor.dayoftheweek') }} {{ states('sensor.month') }} {{ states('sensor.dateofthemonth') }}
+
+############################
+# HVAC State Sensors (MQTT)
+############################
+
+#HVAC MODE 
+- platform: mqtt
+  unique_id: hvac_mode
+  name: "HVAC Mode"
+  state_topic: rinnai/hvac/mode/get
+  #value_template: "{{ value_json }}"
+  
+#HVAC CURRENT TEMPERATURE
+- platform: mqtt
+  unique_id: hvac_current_temperature
+  name: "HVAC Current Temperature"
+  state_topic: rinnai/hvac/current_temperature/get
+  #value_template: "{{ value_json }}"
+
+#HVAC SET TEMPERATURE
+- platform: mqtt
+  unique_id: hvac_set_temperature
+  name: "HVAC Set Temperature"
+  state_topic: rinnai/hvac/temperature/get
+  #value_template: "{{ value_json }}"
+
+#HVAC FAN SPEED
+- platform: mqtt
+  unique_id: hvac_fan_speed
+  name: "HVAC Fan Speed"
+  state_topic: rinnai/hvac/fan_mode/get
+  #value_template: "{{ value_json }}"
+
+#HVAC ZONE STATUS
+- platform: mqtt
+  unique_id: hvac_zone_a
+  name: "HVAC Zone A Status"
+  state_topic: "rinnai/hvac/action/get"
+  value_template: "{{ value_json.A }}"
+- platform: mqtt
+  unique_id: hvac_zone_b
+  name: "HVAC Zone B Status"
+  state_topic: "rinnai/hvac/action/get"
+  value_template: "{{ value_json.B }}"
+- platform: mqtt
+  unique_id: hvac_zone_C
+  name: "HVAC Zone C Status"
+  state_topic: "rinnai/hvac/action/get"
+  value_template: "{{ value_json.C }}"
+
+############################
+# HVAC Usage Sensors
+############################
+
+### Zone Usage###
+# Zone A
+- platform: history_stats
+  name: Heater Usage Today (Zone A) - Time
+  entity_id: sensor.hvac_zone_a_status
+  state: 'heating'
+  type: time
+  start: '{{ now().replace(hour=0, minute=0, second=0) }}'
+  end: '{{ now() }}'
+
+- platform: history_stats
+  name: Heater Usage Yesterday (Zone A) - Time
+  entity_id: sensor.hvac_zone_a_status
+  state: 'heating'
+  type: time
+  end: '{{ now().replace(hour=0, minute=0, second=0) }}'
+  duration:
+    hours: 24
+
+- platform: history_stats
+  name: Heater Usage Today (Zone A) - Ratio
+  entity_id: sensor.hvac_zone_a_status
+  state: 'heating'
+  type: ratio
+  start: '{{ now().replace(hour=0, minute=0, second=0) }}'
+  end: '{{ now() }}'
+
+### Convert Stats to hh:mm
+- platform: template
+  sensors:
+    heater_usage_today_zone_a_rounded:
+      friendly_name: Heater Usage Today (Zone A)
+      value_template: '{{ states.sensor.heater_usage_today_zone_a_time.attributes.value }}'
+    heater_usage_yesterday_zone_a_rounded:
+      friendly_name: Heater Usage Yesterday (Zone A)
+      value_template: '{{ states.sensor.heater_usage_yesterday_zone_a_time.attributes.value }}'
+
+# Zone B
+- platform: history_stats
+  name: Heater Usage Today (Zone B) - Time
+  entity_id: sensor.hvac_zone_b_status
+  state: 'heating'
+  type: time
+  start: '{{ now().replace(hour=0, minute=0, second=0) }}'
+  end: '{{ now() }}'
+
+- platform: history_stats
+  name: Heater Usage Yesterday (Zone B) - Time
+  entity_id: sensor.hvac_zone_b_status
+  state: 'heating'
+  type: time
+  end: '{{ now().replace(hour=0, minute=0, second=0) }}'
+  duration:
+    hours: 24
+
+- platform: history_stats
+  name: Heater Usage Today (Zone B) - Ratio
+  entity_id: sensor.hvac_zone_b_status
+  state: 'heating'
+  type: ratio
+  start: '{{ now().replace(hour=0, minute=0, second=0) }}'
+  end: '{{ now() }}'
+
+### Convert Stats to hh:mm
+- platform: template
+  sensors:
+    heater_usage_today_zone_b_rounded:
+      friendly_name: Heater Usage Today (Zone B)
+      value_template: '{{ states.sensor.heater_usage_today_zone_b_time.attributes.value }}'
+    heater_usage_yesterday_zone_b_rounded:
+      friendly_name: Heater Usage Yesterday (Zone B)
+      value_template: '{{ states.sensor.heater_usage_yesterday_zone_b_time.attributes.value }}'
+
+# Zone C
+- platform: history_stats
+  name: Heater Usage Today (Zone C) - Time
+  entity_id: sensor.hvac_zone_c_status
+  state: 'heating'
+  type: time
+  start: '{{ now().replace(hour=0, minute=0, second=0) }}'
+  end: '{{ now() }}'
+
+- platform: history_stats
+  name: Heater Usage Yesterday (Zone C) - Time
+  entity_id: sensor.hvac_zone_C_status
+  state: 'heating'
+  type: time
+  end: '{{ now().replace(hour=0, minute=0, second=0) }}'
+  duration:
+    hours: 24
+
+- platform: history_stats
+  name: Heater Usage Today (Zone C) - Ratio
+  entity_id: sensor.hvac_zone_c_status
+  state: 'heating'
+  type: ratio
+  start: '{{ now().replace(hour=0, minute=0, second=0) }}'
+  end: '{{ now() }}'
+
+### Convert Stats to hh:mm
+- platform: template
+  sensors:
+    heater_usage_today_zone_c_rounded:
+      friendly_name: Heater Usage Today (Zone C)
+      value_template: '{{ states.sensor.heater_usage_today_zone_c_time.attributes.value }}'
+    heater_usage_yesterday_zone_c_rounded:
+      friendly_name: Heater Usage Yesterday (Zone C)
+      value_template: '{{ states.sensor.heater_usage_yesterday_zone_c_time.attributes.value }}'
