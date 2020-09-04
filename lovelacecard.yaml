@@ -1,0 +1,138 @@
+image: /local/floorplan/tablet1/tablet1.svg?v=1.1.15
+rules:
+  - action:
+      data:
+        elements:
+          - class: visble
+            id: constant
+          - class: hidden
+            id: page0
+          - class: visible
+            id: page1
+      service: floorplan.class_select
+    element: thermostat_button
+  - action:
+      data:
+        elements:
+          - class: visble
+            id: constant
+          - class: hidden
+            id: page1
+          - class: visible
+            id: page0
+      service: floorplan.class_select
+    element: main_button
+  - entities:
+      - sensor.bom_forecast_icon_1
+      - sensor.bom_forecast_icon_2
+      - sensor.bom_forecast_icon_3
+    image_template: '/local/floorplan/tablet1/images/weather/${entity.state}.svg'
+  - entities:
+      - sensor.bom_forecast_icon_today
+    image_template: '/local/floorplan/tablet1/images/weather/${entity.state}.svg'
+  - entities:
+      - sensor.hvac_mode_icon
+    image_template: '/local/floorplan/tablet1/images/thermostat/${entity.state}.svg'
+  - entities:
+      - sensor.hvac_zone_a_status
+      - sensor.hvac_zone_b_status
+      - sensor.hvac_zone_c_status
+    image_template: '/local/floorplan/tablet1/images/thermostat/${entity.state}_zone.svg'
+  - entities:
+      - sensor.fulldate
+      - sensor.time
+      - sensor.bom_forecast_day_1
+      - sensor.bom_forecast_day_2
+      - sensor.bom_forecast_day_3
+      - sensor.bom_forecast_rain_0
+      - sensor.bom_forecast_rain_1
+      - sensor.bom_forecast_rain_2
+      - sensor.bom_forecast_rain_3
+      - sensor.bom_forecast_summary_today
+      - sensor.hvac_mode
+      - sensor.heater_usage_today_zone_a_rounded
+      - sensor.heater_usage_yesterday_zone_a_rounded
+      - sensor.heater_usage_today_zone_b_rounded
+      - sensor.heater_usage_yesterday_zone_b_rounded
+      - sensor.heater_usage_today_zone_c_rounded
+      - sensor.heater_usage_yesterday_zone_c_rounded
+  - entities:
+      - sensor.master_bedroom_multi_sensor_temperature
+      - sensor.hvac_set_temperature
+      - sensor.bom_moorabbin_air_temp_c
+      - sensor.bom_forecast_maxtemp_1
+      - sensor.bom_forecast_maxtemp_2
+      - sensor.bom_forecast_maxtemp_3
+      - sensor.bom_forecast_mintemp_1
+      - sensor.bom_forecast_mintemp_2
+      - sensor.bom_forecast_mintemp_3
+      - sensor.bom_max_temp_today
+      - sensor.common_multi_sensor_temperature
+      - sensor.master_bedroom_multi_sensor_temperature
+      - sensor.kids_multi_sensor_temperature
+      - sensor.bom_moorabbin_air_temp_c
+    text_template: '${entity.state ? (entity.state) + "°": "undefined"}'
+  - entities:
+      - sensor.bom_moorabbin_wind_speed_kmh
+    text_template: '${entity.state ? (entity.state) + "km/h": "undefined"}'
+  - entities:
+      - sensor.daily_energy_import
+    text_template: '${entity.state ? Math.ceil(entity.state) + "kWh": "undefined"}'
+  - entities:
+      - sensor.daily_power_cost
+    text_template: '${entity.state ? "$" + (entity.state) : "undefined"}'
+  - entities:
+      - sensor.common_multi_sensor_humidity
+      - sensor.master_bedroom_multi_sensor_humidity
+      - sensor.kids_multi_sensor_humidity
+      - input_number.set_temperature
+      - input_number.hvac_set_temperature
+    text_template: '${entity.state ? Math.round(entity.state):"undefined"}'
+  - action:
+      service: homeassistant.toggle
+    entities:
+      - input_boolean.hvac_zone_a_button
+      - input_boolean.hvac_zone_b_button
+      - input_boolean.hvac_zone_c_button
+      - input_boolean.hvac_heat_button
+      - input_boolean.hvac_cool_button
+      - input_boolean.hvac_fan_button
+      - binary_sensor.hvac_heat_mode_sensor
+      - binary_sensor.hvac_cool_mode_sensor
+      - binary_sensor.hvac_fan_mode_sensor
+      - binary_sensor.hvac_on_off_sensor
+      - binary_sensor.hvac_zone_a_sensor
+      - binary_sensor.hvac_zone_b_sensor
+      - binary_sensor.hvac_zone_c_sensor
+      - switch.towel_rail
+    states:
+      - class: zone-on
+        state: 'on'
+      - class: zone-off
+        state: 'off'
+  - entities:
+      - element: sensor.hvac_set_temperature.page1
+        entity: sensor.hvac_set_temperature
+  - entities:
+      - element: sensor.master_bedroom_multi_sensor_temperature.page1
+        entity: sensor.master_bedroom_multi_sensor_temperature
+  - entities:
+      - element: sensor.hvac_zone_b_status.page0
+        entity: sensor.hvac_zone_b_status
+  - action:
+      service: homeassistant.toggle
+    entities:
+      - switch.hvac_on_off
+    states:
+      - class: zone-on
+        state: fan_only
+      - class: zone-off
+        state: 'off'
+  - action:
+      service: script.toggle
+    entities:
+      - script.1591061096726
+      - script.1591061319101
+    text_template: '${entity.state ? (entity.state) + "m": "undefined"}'
+stylesheet: /local/floorplan/tablet1/tablet1.css
+type: 'custom:floorplan-card'
