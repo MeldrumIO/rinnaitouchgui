@@ -1,3 +1,59 @@
+##########################
+# HVAC Binary Sensors MQTT 
+##########################
+
 - platform: mqtt
-  state_topic: dummy/thermostat/sensor
-  name: Thermostat
+  unique_id: hvac_on_off_sensor
+  name: "HVAC On Off Sensor"
+  state_topic: rinnai/hvac/mode/get
+  payload_on: "heat"
+  payload_off: "off"
+  qos: 0
+
+- platform: mqtt
+  unique_id: hvac_heat_mode_sensor
+  name: "HVAC Heat Mode Sensor"
+  state_topic: rinnai/switch/heat/get
+  payload_on: "on"
+  payload_off: "off"
+  qos: 0
+
+- platform: mqtt
+  unique_id: hvac_cool_mode_sensor
+  name: "HVAC Cool Mode Sensor"
+  state_topic: rinnai/switch/cool/get
+  payload_on: "on"
+  payload_off: "off"
+  qos: 0
+
+- platform: mqtt
+  unique_id: hvac_fan_mode_sensor
+  name: "HVAC Fan Mode Sensor"
+  state_topic: rinnai/switch/fan/get
+  payload_on: "on"
+  payload_off: "off"
+  qos: 0
+
+- platform: mqtt
+  unique_id: hvac_zone_a_sensor
+  name: "HVAC Zone A Sensor"
+  state_topic: rinnai/switch/zone/a/get
+  payload_on: "on"
+  payload_off: "off"
+  qos: 0
+
+- platform: mqtt
+  unique_id: hvac_zone_b_sensor
+  name: "HVAC Zone B Sensor"
+  state_topic: rinnai/switch/zone/b/get
+  payload_on: "on"
+  payload_off: "off"
+  qos: 0
+
+- platform: mqtt
+  unique_id: hvac_zone_c_sensor
+  name: "HVAC Zone C Sensor"
+  state_topic: rinnai/switch/zone/c/get
+  payload_on: "on"
+  payload_off: "off"
+  qos: 0
