@@ -136,3 +136,4 @@ rules:
     text_template: '${entity.state ? (entity.state) + "m": "undefined"}'
 stylesheet: /local/floorplan/tablet1/tablet1.css
 type: 'custom:floorplan-card'
+
