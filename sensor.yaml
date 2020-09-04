@@ -39,28 +39,32 @@
   unique_id: hvac_mode
   name: "HVAC Mode"
   state_topic: rinnai/hvac/mode/get
-  #value_template: "{{ value_json }}"
+  # value_template: >
+  #        {{ states('sensor.hvac_mode') | capitalize }}
+
+#HVAC MODE ICON
+- platform: mqtt
+  unique_id: hvac_mode_icon
+  name: "HVAC Mode Icon"
+  state_topic: rinnai/hvac/mode/get
   
 #HVAC CURRENT TEMPERATURE
 - platform: mqtt
   unique_id: hvac_current_temperature
   name: "HVAC Current Temperature"
   state_topic: rinnai/hvac/current_temperature/get
-  #value_template: "{{ value_json }}"
 
 #HVAC SET TEMPERATURE
 - platform: mqtt
   unique_id: hvac_set_temperature
   name: "HVAC Set Temperature"
   state_topic: rinnai/hvac/temperature/get
-  #value_template: "{{ value_json }}"
 
 #HVAC FAN SPEED
 - platform: mqtt
   unique_id: hvac_fan_speed
   name: "HVAC Fan Speed"
   state_topic: rinnai/hvac/fan_mode/get
-  #value_template: "{{ value_json }}"
 
 #HVAC ZONE STATUS
 - platform: mqtt
@@ -78,6 +82,12 @@
   name: "HVAC Zone C Status"
   state_topic: "rinnai/hvac/action/get"
   value_template: "{{ value_json.C }}"
+
+#HVAC WIFI MODULE STATUS
+- platform: mqtt
+  unique_id: hvac_wifimodule_status
+  name: "HVAC WiFi Module Status"
+  state_topic: rinnai/connection/status/get
 
 ############################
 # HVAC Usage Sensors
