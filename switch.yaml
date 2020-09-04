@@ -1,0 +1,106 @@
+##########################
+# HVAC Switch MQTT Buttons
+##########################
+
+#HVAC ON OFF
+- platform: mqtt
+  unique_id: hvac_on_off
+  name: "HVAC On Off"
+  state_topic: rinnai/hvac/mode/get
+  #value_template: {% if value == "fan_only" or value=="heat" or value=="cool" %}on{% endif %}
+  command_topic: rinnai/hvac/mode/set
+  payload_on: "heat"
+  payload_off: "off"
+  optimistic: false
+  qos: 0
+  retain: true
+
+#HEAT MODE
+- platform: mqtt
+  unique_id: hvac_heat_mode
+  name: "HVAC Heat Mode"
+  state_topic: rinnai/switch/heat/get
+  command_topic: rinnai/switch/heat/set
+  payload_on: "on"
+  payload_off: "off"
+  optimistic: false
+  qos: 0
+  retain: true
+
+#COOL MODE
+- platform: mqtt
+  unique_id: hvac_cool_mode
+  name: "HVAC Cool Mode"
+  state_topic: rinnai/switch/cool/get
+  #value_template: "{{ value_json }}"
+  command_topic: rinnai/switch/cool/set
+  payload_on: "on"
+  payload_off: "off"
+  optimistic: false
+  qos: 0
+  retain: true
+
+#FAN MODE
+- platform: mqtt
+  unique_id: hvac_fan_mode
+  name: "HVAC Fan Mode"
+  state_topic: rinnai/switch/fan/get
+  #value_template: "{{ value_json }}"
+  command_topic: rinnai/switch/fan/set
+  payload_on: "on"
+  payload_off: "off"
+  optimistic: false
+  qos: 0
+  retain: true
+
+#MANUAL MODE
+- platform: mqtt
+  unique_id: hvac_manual_mode
+  name: "HVAC Manual Mode"
+  state_topic: rinnai/switch/manual/get
+  #value_template: "{{ value_json }}"
+  command_topic: rinnai/switch/manual/set
+  payload_on: "on"
+  payload_off: "off"
+  optimistic: false
+  qos: 0
+  retain: true
+
+#ZONE A
+- platform: mqtt
+  unique_id: hvac_zone_a_switch
+  name: "HVAC Zone A Switch"
+  state_topic: rinnai/switch/zone/a/get
+  #value_template: "{{ value_json }}"
+  command_topic: rinnai/switch/zone/a/set
+  payload_on: "on"
+  payload_off: "off"
+  optimistic: false
+  qos: 0
+  retain: true
+
+#ZONE B
+- platform: mqtt
+  unique_id: hvac_zone_b_switch
+  name: "HVAC Zone B Switch"
+  state_topic: rinnai/switch/zone/b/get
+  #value_template: "{{ value_json }}"
+  command_topic: rinnai/switch/zone/b/set
+  payload_on: "on"
+  payload_off: "off"
+  optimistic: false
+  qos: 0
+  retain: true
+
+#ZONE C
+- platform: mqtt
+  unique_id: hvac_zone_c_switch
+  name: "HVAC Zone C Switch"
+  state_topic: rinnai/switch/zone/c/get
+  #value_template: "{{ value_json }}"
+  command_topic: rinnai/switch/zone/c/set
+  payload_on: "on"
+  payload_off: "off"
+  optimistic: false
+  qos: 0
+  retain: true
